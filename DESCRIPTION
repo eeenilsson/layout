@@ -1,0 +1,8 @@
+Package: layout
+Version: 0.1
+Date: 2017-08-08
+Title: Layout tables
+Description: Layout Tables for html
+Author: Erik Nilsson <eeenilsson@hotmail.com>
+Maintainer: Erik Nilsson <eeenilsson@hotmail.com>
+RoxygenNote: 6.0.1
