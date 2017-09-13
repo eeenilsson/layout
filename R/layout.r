@@ -429,7 +429,7 @@ setMethod('layout_html', # specify function in relation to object class
               slot(object, "labels") <- labels
               if(!is.null(signif_digits)){
                   object@body <- as.data.frame(
-                      sapply(object@body,
+                      lapply(object@body,
                              function(x){
                                  if(is.numeric(x)){
                                      signif(x, digits = signif_digits)
