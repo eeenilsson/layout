@@ -4,13 +4,14 @@
 #' @family table layout
 #' @seealso \code{\link{html.layout}} for html tables and \code{\link{print_abbrev}} for printing abbrevs to table footer.
 #' @description
-#' \code{query_abbrev} queries if any of the names in a named list is present in an object including object names, matching only on strings that are separate words (ie starting and ending with blank, comma, parentheris or other separator). Returns named list with all abbreviations present (via grepl). Version 1.1: Added code to look for abbreviation only when being a separate word.
+#' \code{query_abbrev} queries if any of the names in a named list is present in an object including object names, matching only on strings that are separate words (ie starting and ending with blank, comma, parentheris or other separator). Returns named list with all abbreviations present (via grepl).
 #' @param x Object to test.
 #' @param y Named list of abbrevs.
 #' @return  Named list of abbreviations in object and corresponding explanation
 #' @examples None yet.
 #' @export
-query.abbrev <- function(x, y) {
+## Version 1.1: Added code to look for abbreviation only when being a separate word
+query_abbrev <- function(x, y) {
     returnthis <- vector()
     for(i in 1: length(y)){
         ifelse(isTRUE(

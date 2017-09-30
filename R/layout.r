@@ -453,13 +453,13 @@ setMethod('layout_html', # specify function in relation to object class
               if(is.null(header)& length(object@rgroup)>0){
                   header_temp <- rep("", times = length(header_temp))
               }else{
-                  NULL}              
+                  NULL}
               cgroup <- c(
                   "", # none for var col
                   if(length(object@left_col)!=0){""}, # none for left col
                   object@cgroup_levels,
                   if(length(object@right_col)!=0){""}
-              )              
+              )
               cgroup <-
                   plyr::revalue(cgroup, object@labels) # Rename
               header_temp <-
@@ -470,7 +470,7 @@ setMethod('layout_html', # specify function in relation to object class
               object@body[, object@variable_col] <-
                   plyr::revalue(object@body[, object@variable_col], object@labels)
               attr(object@rgroup, "add") <- lapply(object@rgroup_header, `[`, -1)
-              table_html <- htmlTable(
+                  table_html <- htmlTable(
                   object@body,
                   align=paste("l", paste(rep('c', ncol(object@body)-1),collapse='')),
                   align.header=paste("l", paste(rep('c', ncol(object@body)-1),collapse='')),
@@ -486,7 +486,8 @@ setMethod('layout_html', # specify function in relation to object class
                                 print_abbrev(
                                     query_abbrev(
                                         c(
-                                            object@body[,object@variable_col],
+                                            as.character(
+                                                object@body[,object@variable_col]),
                                             header_temp,
                                             unlist(object@rgroup_header),
                                             cgroup),
@@ -496,6 +497,9 @@ setMethod('layout_html', # specify function in relation to object class
               )              
               return(table_html)
           })
+## problem: not possible to omit cgroup when = "all" ?
+## cgroup = ifelse(length(object@cgroup_levels) == 1 & object@cgroup_levels == 'all', NA, cgroup)
+
 
 #' @title Add column group
 #' @family table layout
