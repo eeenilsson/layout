@@ -53,5 +53,5 @@ Other table layout: \code{\link{add_colgroup}},
   \code{\link{firstrow_css}},
   \code{\link{order_by_vector}},
   \code{\link{order_layout}}, \code{\link{prepare}},
-  \code{\link{print_abbrev}}, \code{\link{query_abbrev}}
+  \code{\link{print_abbrev}}, \code{\link{query.abbrev}}
 }
