@@ -89,3 +89,34 @@ order_by_vector <- function(x, match_by, order_by){
 }
 
 
+#' @title Add units to labels
+#' @family table layout
+#' @description
+#' \code{add_units} adds units to variable labels from a named vector matching the names of the labels. 
+#' @param x  contains variable labels.
+#' @param y contains units to be added, matched by name.
+#' @return  Named vector with labels and added units, if available (otherwise "NA" is added).
+#' @examples
+#' variable_labels <- c(
+#'    'apples' = "Apples",
+#'    'bnanas' = "Bananas",
+#'    'peas' = "Peas"
+#')
+#'unit_labels <- c(
+#'    'apples' = "pcs",
+#'    'peas' = "kg"
+#')
+#'add_units(variable_labels, unit_labels)
+#' @export
+
+add_units <- function(x, y){
+    ## x and y are named vectors
+    ## x contains variable labels
+    ## y contains units, matched by name
+    TEMP <- rbind.fill.matrix(t(x), t(y))
+    TEMP[is.na(TEMP)] <- "missing_label"
+    RESULT <- paste(TEMP[1,], TEMP[2,], sep = ", ")
+    names(RESULT) <- colnames(TEMP)
+    RESULT <- gsub(", missing_label", "", RESULT) # remove missing
+    return(RESULT)
+}

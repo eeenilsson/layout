@@ -3,6 +3,7 @@
 export(add_colgroup)
 export(add_cols)
 export(add_rowgroup)
+export(add_units)
 export(firstrow_css)
 export(layout_html)
 export(order_by_vector)

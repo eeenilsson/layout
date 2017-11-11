@@ -6,7 +6,7 @@
 \usage{
 layout_html(object, caption = NULL, header = NULL, footer = NULL,
   abbreviations = NULL, labels = NULL, signif_digits = NULL,
-  rgroup = NULL, n.rgroup = NULL, ...)
+  rgroup = NULL, n.rgroup = NULL, units = NULL, ...)
 }
 \arguments{
 \item{object}{A layout object including a body containing the table.}
@@ -50,7 +50,7 @@ html_out <- layout_html(example_layout,
 
 Other table layout: \code{\link{add_colgroup}},
   \code{\link{add_cols}}, \code{\link{add_rowgroup}},
-  \code{\link{firstrow_css}},
+  \code{\link{add_units}}, \code{\link{firstrow_css}},
   \code{\link{order_by_vector}},
   \code{\link{order_layout}}, \code{\link{prepare}},
   \code{\link{print_abbrev}}, \code{\link{query_abbrev}}

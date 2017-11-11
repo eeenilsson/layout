@@ -25,7 +25,8 @@ firstrow_css(example_layout)
 
 Other table layout: \code{\link{add_colgroup}},
   \code{\link{add_cols}}, \code{\link{add_rowgroup}},
-  \code{\link{layout_html}}, \code{\link{order_by_vector}},
+  \code{\link{add_units}}, \code{\link{layout_html}},
+  \code{\link{order_by_vector}},
   \code{\link{order_layout}}, \code{\link{prepare}},
   \code{\link{print_abbrev}}, \code{\link{query_abbrev}}
 }
