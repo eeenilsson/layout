@@ -113,7 +113,7 @@ add_units <- function(x, y){
     ## x and y are named vectors
     ## x contains variable labels
     ## y contains units, matched by name
-    TEMP <- rbind.fill.matrix(t(x), t(y))
+    TEMP <- plyr::rbind.fill.matrix(t(x), t(y))
     TEMP[is.na(TEMP)] <- "missing_label"
     RESULT <- paste(TEMP[1,], TEMP[2,], sep = ", ")
     names(RESULT) <- colnames(TEMP)
