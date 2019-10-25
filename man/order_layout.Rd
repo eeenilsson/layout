@@ -37,3 +37,4 @@ Other table layout: \code{\link{add_colgroup}},
   \code{\link{prepare}}, \code{\link{print_abbrev}},
   \code{\link{query_abbrev}}
 }
+\concept{table layout}

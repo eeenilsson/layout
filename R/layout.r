@@ -299,16 +299,15 @@ setMethod('add_cols', # specify function in relation to object class
                                     names(object@body)[!names(object@body) %in% c(object@variable_col, object@left_col, object@right_col)],
                                     object@right_col
                                     )
-
-              if(position == 'right'){
-                  slot(object, "n.cgroup") <- c(object@n.cgroup, 1)
-              }else{
-                  slot(object, "n.cgroup") <- c(
-                      object@n.cgroup[1],
-                      1,
-                      object@n.cgroup[2:length(object@n.cgroup)])
-                  }
-              ## object@n.cgroup[object@n.cgroup==0] <- NA
+              slot(object, "n.cgroup") <- c(object@n.cgroup[1],
+                                            ifelse(is.na(object@left_col[1]),
+                                                   NA,
+                                                   length(object@left_col)),
+                                            object@n.cgroup[-1],
+                                            ifelse(is.na(object@right_col[1]),
+                                                   NA,
+                                                   length(object@right_col))
+                                            )
               slot(object, "n.cgroup") <- na.omit(object@n.cgroup)
               slot(object, "body") <- object@body[, object@col_order] # reorder
               return(object)
@@ -481,14 +480,14 @@ setMethod('layout_html', # specify function in relation to object class
               ##
 
               cgroup <-
-                  plyr::revalue(cgroup, object@labels) # Rename
+                  plyr::revalue(cgroup, object@labels, warn_missing = FALSE) # Rename
               header_temp <-
-                  plyr::revalue(header_temp, object@labels)
+                  plyr::revalue(header_temp, object@labels, warn_missing = FALSE)
               object@rgroup <-
-                  plyr::revalue(object@rgroup, object@labels)
+                  plyr::revalue(object@rgroup, object@labels, warn_missing = FALSE)
               object@rgroup_header <- lapply(object@rgroup_header, function(x){plyr::revalue(x, object@labels)})
               object@body[, object@variable_col] <-
-                  plyr::revalue(object@body[, object@variable_col], object@labels)
+                  plyr::revalue(object@body[, object@variable_col], object@labels, warn_missing = FALSE)
               attr(object@rgroup, "add") <- lapply(object@rgroup_header, `[`, -1)
               table_html <- htmlTable(
                   object@body,
@@ -513,8 +512,7 @@ setMethod('layout_html', # specify function in relation to object class
                                             cgroup),
                                         object@abbreviations)
                                 ),
-                                sep = ""),
-                  ...
+                                sep = "")
               )              
               return(table_html)
           })
