@@ -440,7 +440,7 @@ setMethod('layout_html', # specify function in relation to object class
                   object@body <- as.data.frame(
                       lapply(object@body,
                              function(x){
-                                 if(is.numeric(x)){
+                                 if(is.numeric(x) & sum(!x%%1==0)>0){
                                      signif(x, digits = signif_digits)
                                  }else{
                                      x
