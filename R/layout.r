@@ -43,8 +43,8 @@ layout <- setClass("layout", representation(
 #' @description
 #' \code{prepare} prepare formats body from long to wide by given factor and collects variables from original data for later. Output is an S4 object containing the table and ancillary information to be used for table formatting in when printing as html.
 #' @param object A data frame containing the layout table body.
-#' @param variable_col A character element with the name of the column containing variable names. 
-#' @param by_col A character element with specifying the column containing the factor used for grouping. Set to 'all' for single group. 
+#' @param variable_col A character element with the name of the column containing variable names.
+#' @param by_col A character element with specifying the column containing the factor used for grouping. Set to 'all' for single group.
 #' @return An S4 object. the object@body contains the table with one row per variable and a set of display columns for each level of the grouping variable.
 #' @examples
 #' ## Create an S4 object, optionally adding specifications for the slots
@@ -58,7 +58,7 @@ layout <- setClass("layout", representation(
 #'                           by_col = "Species")
 #' ## Get petal width data
 #' example_layout_width <- new('layout',
-#'                       body = dta_width) 
+#'                       body = dta_width)
 #' ## Prepare the layout object for petal width
 #' example_layout_width <- prepare(example_layout_width,
 #'                           variable_col= 'key',
@@ -117,7 +117,7 @@ setMethod('prepare', # specify function in relation to object class
               }else{
                   slot(object, "body") <- object@body[!names(object@body) %in% by_col]
               }
-              
+
               slot(object, "col_order") <- names(object@body)
               return(object)
           }
@@ -125,7 +125,7 @@ setMethod('prepare', # specify function in relation to object class
 
 ## problem: Function will not accept tibble, must be converted to data frame
 
-#' @title Order table rows. 
+#' @title Order table rows.
 #' @family table layout
 #' @seealso \code{\link{prepare}} for making a layout object and \code{\link{layout_html}} for printing a layout object to html.
 #' @description
@@ -134,15 +134,15 @@ setMethod('prepare', # specify function in relation to object class
 #' @param match_by A character element specifying the column name in the object@body that is used for ordering.
 #' @param order_by A character vector with variable names appearing in the order that is to be applied to the object@body.
 #' @param drop If \code{TRUE}, variables absent from \code{order_by} are removed from the returned object@body.
-#' @return A layout object where the object@body has been reordered. 
-#' @examples 
+#' @return A layout object where the object@body has been reordered.
+#' @examples
 #'example_layout <- order_layout(example_layout,
 #'         match_by = 'key',
 #'         order_by = c("Sepal.Length", "Petal.Length"))
 #' @export
 setGeneric('order_layout', # initialize funtion as a generic
            function(object,
-                    match_by=object@variable_col, #default order by var col 
+                    match_by=object@variable_col, #default order by var col
                     order_by=object@.row_order,
                     drop=FALSE
                     ){
@@ -165,7 +165,7 @@ setMethod('order_layout', # specify function in relation to object class
                                            ),
                                  odr_temp
                                  )%>%select(-odr_temp)
-              
+
               if(!drop){ # keep rows not in vector
                   df_temp <- rbind(
                       df_temp,
@@ -197,14 +197,14 @@ setGeneric('add_rowgroup',
                standardGeneric('add_rowgroup')
            }
            )
-setMethod('add_rowgroup', 
+setMethod('add_rowgroup',
           signature(object='layout'),
           function(object, object2, rgroup_names){
               object@rgroup = rgroup_names
               if(length(object@n.rgroup)==0){
-                  object@n.rgroup = c(nrow(object@body), nrow(object2@body) )  
+                  object@n.rgroup = c(nrow(object@body), nrow(object2@body) )
               }else{
-                  object@n.rgroup = c(object@n.rgroup, nrow(object2@body) )    
+                  object@n.rgroup = c(object@n.rgroup, nrow(object2@body) )
               }
               header2 <- names(object2@body)
               names(object2@body) <- names(object@body) # to enable rbind
@@ -269,7 +269,7 @@ setMethod('add_rowgroup',
 #' @description
 #' \code{add_cols} Adds a data frame to a layout object table body.
 #' @param object A layout object including a body containing the table.
-#' @param DF A data frame with the columns to be added. The column used for matching is not added. 
+#' @param DF A data frame with the columns to be added. The column used for matching is not added.
 #' @param by A character element with the name of the column specifying the column to use for joining (must be named identically in the layout object and the data frame containing the columns to be added).
 #' @param position A character value 'left' or 'right' specifying where the new columns should be added. Any specification other than 'right' will be interpreted as 'left'.
 #' @return A layout object with new columns added to the object body.
@@ -411,7 +411,7 @@ setMethod('layout_html', # specify function in relation to object class
               }
               if(sum(names(object@body) %in% "var")>0){
                   print("Rename var to variable")
-## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"    
+## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"
               }
               if(is.null(labels)){ # if no labels stated
                   if(length(object@labels)==0){ # if no existing
@@ -440,7 +440,7 @@ setMethod('layout_html', # specify function in relation to object class
                   object@body <- as.data.frame(
                       lapply(object@body,
                              function(x){
-                                 if(is.numeric(x) & sum(!x%%1==0)>0){
+                                 if(is.numeric(x) & sum(!as.numeric(x)%%1==0)>0){
                                      signif(x, digits = signif_digits)
                                  }else{
                                      x
@@ -462,7 +462,7 @@ setMethod('layout_html', # specify function in relation to object class
               if(is.null(header)& length(object@rgroup)>0){
                   header_temp <- rep("", times = length(header_temp))
               }else{
-                  NULL}              
+                  NULL}
               ## cgroup <- c(
               ##     "", # none for var col
               ##     if(length(object@left_col)!=0){""}, # none for left col
@@ -513,7 +513,7 @@ setMethod('layout_html', # specify function in relation to object class
                                         object@abbreviations)
                                 ),
                                 sep = "")
-              )              
+              )
               return(table_html)
           })
 
@@ -523,7 +523,7 @@ setMethod('layout_html', # specify function in relation to object class
 #' @description
 #' \code{add_colgroup} Adds a layout objet to another layout object, as a new column group.
 #' @param object A layout object including a body containing the table.
-#' @param object2 A layout object including a body containing the table. The column used for matching is not added. 
+#' @param object2 A layout object including a body containing the table. The column used for matching is not added.
 #' @param by A character element with the name of the column specifying the column to use for joining (must be named identically in the layout object and the data frame containing the columns to be added).
 #' @param position A character value 'left' or 'right' specifying where the new columns should be added. Any specification other than 'right' will be interpreted as 'left'.
 #' @return A layout object with new column group added.
@@ -549,7 +549,7 @@ setMethod('add_colgroup', # specify function in relation to object class
               }
               if(object@variable_col[1]!=object2@variable_col[1]){
                   warning("Name of variable column not matching.")
-              }              
+              }
               by <- object@variable_col[1]
               slot(object, "body") <- left_join(object@body, object2@body, by = by)
               if(position == 'left'){ # put right cols after var + left
@@ -571,7 +571,7 @@ setMethod('add_colgroup', # specify function in relation to object class
                   object@col_order <- c(
                       object@col_order[1:(1+length(object@left_col))], # left
                       object@col_order[(2+length(object@left_col)):length(object@col_order)],
-                      object2@col_order[-1] # not var   
+                      object2@col_order[-1] # not var
                   )
                   object@n.cgroup <-c(
                       object@n.cgroup[1:(1+length(object@left_col[1]))],
