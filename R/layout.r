@@ -43,8 +43,8 @@ layout <- setClass("layout", representation(
 #' @description
 #' \code{prepare} prepare formats body from long to wide by given factor and collects variables from original data for later. Output is an S4 object containing the table and ancillary information to be used for table formatting in when printing as html.
 #' @param object A data frame containing the layout table body.
-#' @param variable_col A character element with the name of the column containing variable names.
-#' @param by_col A character element with specifying the column containing the factor used for grouping. Set to 'all' for single group.
+#' @param variable_col A character element with the name of the column containing variable names. 
+#' @param by_col A character element with specifying the column containing the factor used for grouping. Set to 'all' for single group. 
 #' @return An S4 object. the object@body contains the table with one row per variable and a set of display columns for each level of the grouping variable.
 #' @examples
 #' ## Create an S4 object, optionally adding specifications for the slots
@@ -58,7 +58,7 @@ layout <- setClass("layout", representation(
 #'                           by_col = "Species")
 #' ## Get petal width data
 #' example_layout_width <- new('layout',
-#'                       body = dta_width)
+#'                       body = dta_width) 
 #' ## Prepare the layout object for petal width
 #' example_layout_width <- prepare(example_layout_width,
 #'                           variable_col= 'key',
@@ -117,7 +117,7 @@ setMethod('prepare', # specify function in relation to object class
               }else{
                   slot(object, "body") <- object@body[!names(object@body) %in% by_col]
               }
-
+              
               slot(object, "col_order") <- names(object@body)
               return(object)
           }
@@ -125,7 +125,7 @@ setMethod('prepare', # specify function in relation to object class
 
 ## problem: Function will not accept tibble, must be converted to data frame
 
-#' @title Order table rows.
+#' @title Order table rows. 
 #' @family table layout
 #' @seealso \code{\link{prepare}} for making a layout object and \code{\link{layout_html}} for printing a layout object to html.
 #' @description
@@ -134,15 +134,15 @@ setMethod('prepare', # specify function in relation to object class
 #' @param match_by A character element specifying the column name in the object@body that is used for ordering.
 #' @param order_by A character vector with variable names appearing in the order that is to be applied to the object@body.
 #' @param drop If \code{TRUE}, variables absent from \code{order_by} are removed from the returned object@body.
-#' @return A layout object where the object@body has been reordered.
-#' @examples
+#' @return A layout object where the object@body has been reordered. 
+#' @examples 
 #'example_layout <- order_layout(example_layout,
 #'         match_by = 'key',
 #'         order_by = c("Sepal.Length", "Petal.Length"))
 #' @export
 setGeneric('order_layout', # initialize funtion as a generic
            function(object,
-                    match_by=object@variable_col, #default order by var col
+                    match_by=object@variable_col, #default order by var col 
                     order_by=object@.row_order,
                     drop=FALSE
                     ){
@@ -165,7 +165,7 @@ setMethod('order_layout', # specify function in relation to object class
                                            ),
                                  odr_temp
                                  )%>%select(-odr_temp)
-
+              
               if(!drop){ # keep rows not in vector
                   df_temp <- rbind(
                       df_temp,
@@ -197,14 +197,14 @@ setGeneric('add_rowgroup',
                standardGeneric('add_rowgroup')
            }
            )
-setMethod('add_rowgroup',
+setMethod('add_rowgroup', 
           signature(object='layout'),
           function(object, object2, rgroup_names){
               object@rgroup = rgroup_names
               if(length(object@n.rgroup)==0){
-                  object@n.rgroup = c(nrow(object@body), nrow(object2@body) )
+                  object@n.rgroup = c(nrow(object@body), nrow(object2@body) )  
               }else{
-                  object@n.rgroup = c(object@n.rgroup, nrow(object2@body) )
+                  object@n.rgroup = c(object@n.rgroup, nrow(object2@body) )    
               }
               header2 <- names(object2@body)
               names(object2@body) <- names(object@body) # to enable rbind
@@ -269,7 +269,7 @@ setMethod('add_rowgroup',
 #' @description
 #' \code{add_cols} Adds a data frame to a layout object table body.
 #' @param object A layout object including a body containing the table.
-#' @param DF A data frame with the columns to be added. The column used for matching is not added.
+#' @param DF A data frame with the columns to be added. The column used for matching is not added. 
 #' @param by A character element with the name of the column specifying the column to use for joining (must be named identically in the layout object and the data frame containing the columns to be added).
 #' @param position A character value 'left' or 'right' specifying where the new columns should be added. Any specification other than 'right' will be interpreted as 'left'.
 #' @return A layout object with new columns added to the object body.
@@ -411,7 +411,7 @@ setMethod('layout_html', # specify function in relation to object class
               }
               if(sum(names(object@body) %in% "var")>0){
                   print("Rename var to variable")
-## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"
+## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"    
               }
               if(is.null(labels)){ # if no labels stated
                   if(length(object@labels)==0){ # if no existing
@@ -440,7 +440,7 @@ setMethod('layout_html', # specify function in relation to object class
                   object@body <- as.data.frame(
                       lapply(object@body,
                              function(x){
-                                 if(is.numeric(x) & sum(!as.numeric(x)%%1==0)>0){
+                                 if(is.numeric(x) & sum(!x%%1==0)>0){
                                      signif(x, digits = signif_digits)
                                  }else{
                                      x
@@ -462,7 +462,7 @@ setMethod('layout_html', # specify function in relation to object class
               if(is.null(header)& length(object@rgroup)>0){
                   header_temp <- rep("", times = length(header_temp))
               }else{
-                  NULL}
+                  NULL}              
               ## cgroup <- c(
               ##     "", # none for var col
               ##     if(length(object@left_col)!=0){""}, # none for left col
@@ -513,7 +513,7 @@ setMethod('layout_html', # specify function in relation to object class
                                         object@abbreviations)
                                 ),
                                 sep = "")
-              )
+              )              
               return(table_html)
           })
 
@@ -523,7 +523,7 @@ setMethod('layout_html', # specify function in relation to object class
 #' @description
 #' \code{add_colgroup} Adds a layout objet to another layout object, as a new column group.
 #' @param object A layout object including a body containing the table.
-#' @param object2 A layout object including a body containing the table. The column used for matching is not added.
+#' @param object2 A layout object including a body containing the table. The column used for matching is not added. 
 #' @param by A character element with the name of the column specifying the column to use for joining (must be named identically in the layout object and the data frame containing the columns to be added).
 #' @param position A character value 'left' or 'right' specifying where the new columns should be added. Any specification other than 'right' will be interpreted as 'left'.
 #' @return A layout object with new column group added.
@@ -549,7 +549,7 @@ setMethod('add_colgroup', # specify function in relation to object class
               }
               if(object@variable_col[1]!=object2@variable_col[1]){
                   warning("Name of variable column not matching.")
-              }
+              }              
               by <- object@variable_col[1]
               slot(object, "body") <- left_join(object@body, object2@body, by = by)
               if(position == 'left'){ # put right cols after var + left
@@ -571,7 +571,7 @@ setMethod('add_colgroup', # specify function in relation to object class
                   object@col_order <- c(
                       object@col_order[1:(1+length(object@left_col))], # left
                       object@col_order[(2+length(object@left_col)):length(object@col_order)],
-                      object2@col_order[-1] # not var
+                      object2@col_order[-1] # not var   
                   )
                   object@n.cgroup <-c(
                       object@n.cgroup[1:(1+length(object@left_col[1]))],
@@ -588,3 +588,253 @@ setMethod('add_colgroup', # specify function in relation to object class
               object@body <- object@body[, object@col_order]
               return(object)
           })
+
+#' Combination Plot
+#' 
+#' Generates a plotly attribute plot given a series of possibly overlapping binary variables. Borrowed temporarily from Hmisc since combplot wan unavailable from that package for unknown reasons.
+#' 
+#' Similar to the \code{UpSetR} package, draws a special dot chart sometimes called an attribute plot that depicts all possible combination of the binary variables.  By default a positive value, indicating that a certain condition pertains for a subject, is any of logical \code{TRUE}, numberic 1, \code{"yes"}, \code{"y"}, \code{"positive"}, \code{"+"} or \code{"present"} value, and all others are considered negative.  The user can override this determination by specifying her own \code{pos} function.  Case is ignored in the variable values.
+#' 
+#' The plot uses solid dots arranged in a vertical line to indicate which combination of conditions is being considered.  Frequencies of all possible combinations are shown above the dot chart.  Marginal frequencies of positive values for the input variables are shown to the left of the dot chart.  More information for all three of these component symbols is provided in hover text.
+#'
+#' Variables are sorted in descending order of marginal frqeuencies and likewise for combinations of variables.
+#' 
+#' @param formula a formula containing all the variables to be cross-tabulated, on the formula's right hand side.  There is no left hand side variable.  If \code{formula} is omitted, then all variables from \code{data} are analyzed.
+#' @param data input data frame.  If none is specified the data are assumed to come from the parent frame.
+#' @param subset an optional subsetting expression applied to \code{data}
+#' @param na.action see \code{lm} etc.
+#' @param vnames set to \code{"names"} to use variable names to label axes instead of variable labels.  When using the default \code{labels}, any variable not having a label will have its name used instead.
+#' @param includenone set to \code{TRUE} to include the combination where all conditions are absent
+#' @param showno set to \code{TRUE} to show a light dot for conditions that are not part of the currently tabulated combination
+#' @param maxcomb maximum number of combinations to display
+#' @param minfreq if specified, any combination having a frequency less than this will be omitted from the display
+#' @param N set to an integer to override the global denominator, instead of using the number of rows in the data
+#' @param pos a function of vector returning a logical vector with \code{TRUE} values indicating positive
+#' @param obsname character string noun describing observations, default is \code{"subjects"}
+#' @param ptsize point size, defaults to 35
+#' @param width width of \code{plotly} plot
+#' @param height height of \code{plotly} plot
+#' @param \dots optional arguments to pass to \code{table}
+#' 
+#' @return \code{plotly} object
+#' @author Frank Harrell
+#' @examples
+#' g <- function() sample(0:1, n, prob=c(1 - p, p), replace=TRUE)
+#' set.seed(2); n <- 100; p <- 0.5
+#' x1 <- g(); label(x1) <- 'A long label for x1 that describes it'
+#' x2 <- g()
+#' x3 <- g(); label(x3) <- 'This is<br>a label for x3'
+#' x4 <- g()
+#' combplotp(~ x1 + x2 + x3 + x4, showno=TRUE, includenone=TRUE)
+#'
+#' n <- 1500; p <- 0.05
+#' pain       <- g()
+#' anxiety    <- g()
+#' depression <- g()
+#' soreness   <- g()
+#' numbness   <- g()
+#' tiredness  <- g()
+#' sleepiness <- g()
+#' combplotp(~ pain + anxiety + depression + soreness + numbness +
+#'           tiredness + sleepiness, showno=TRUE)
+#' @export
+
+combplotp <- function(formula, data=NULL, subset, na.action=na.retain,
+                      vnames=c('labels', 'names'),
+                      includenone=FALSE, showno=FALSE,
+                      maxcomb=NULL, minfreq=NULL, N=NULL,
+                      pos=function(x) 1 * (toupper(x) %in% 
+                        c('true', 'yes', 'y', 'positive', '+', 'present', '1')),
+                      obsname='subjects',
+                      ptsize=35, width=NULL, height=NULL,
+                      ...) {
+
+  vnames <- match.arg(vnames)
+  frac   <- markupSpecs$html$frac
+  fr2    <- function(a, b) paste0(frac(a, b), ' = ', round(a / b, 3))
+  
+  Y <- if(missing(formula)) {
+    if(! missing(subset)) stop('subset not allowed if formula missing')
+    if(! length(data)) stop('data must be specified if formula missing')
+    data
+    } else {
+      if(!missing(subset) && length(subset))
+        model.frame(formula, data=data, subset=subset, na.action=na.action)
+      else
+        model.frame(formula, data=data, na.action=na.action)
+      }
+
+  # Get variable labels, defaulting to variable names
+  labs <- if(vnames == 'names') structure(names(Y), names=names(Y))
+  else {
+    lbs <- sapply(Y, label)
+    ifelse(lbs == '', names(Y), lbs)
+  }
+
+  # Convert Y to logical TRUE/FALSE
+  Y <- lapply(Y, pos)
+  # Compute marginal frequencies
+  m <- sapply(Y, sum, na.rm=TRUE)
+  # Sort variables in order of descending marginal frequency
+  Y <- Y[order(m)]
+  if(! length(N)) N <- length(Y[[1]])    # no. obs
+  f <- as.data.frame(table(Y, ...))
+  f <- f[f$Freq > 0, ]   # subset didn't work
+  p <- ncol(f) - 1       # no. variables
+  numcondpresent <- apply(f[, 1 : p], 1, function(u) sum(u == 1))
+  Nc <- sum(f$Freq[numcondpresent > 0])  # no. obs with any condition
+  if(! includenone && any(numcondpresent == 0))
+      f <- f[numcondpresent > 0, ]
+
+  # Sort combinations in descending order of frequency
+  # Tie-breaker is row order when a combination has only one condition
+  mdesc <- sort(m)
+  mdesc <- 1 : length(mdesc)
+  names(mdesc) <- names(sort(m))
+  g <- function(x) {
+    i <- x > 0
+    ifelse(sum(i) == 1, mdesc[names(x)[i]], 0)
+    }
+  tiebr <- apply(f[, 1 : p], 1, g)
+  i <- order(-f$Freq, -tiebr)
+  f <- f[i, ]
+
+  if(length(maxcomb) && maxcomb < nrow(f))     f <- f[1 : maxcomb, ]
+  if(length(minfreq) && any(f$Freq < minfreq)) f <- f[f$Freq >= minfreq, ]
+  
+  n <- nrow(f)        # no. combinations
+  X <- as.matrix(1 * (f[, 1 : p] == '1'))
+  Freq <- f$Freq
+  
+  # String out information
+  x <- y <- present <- txt <- xn <- frq <- NULL
+  namx <- colnames(X)
+  for(i in 1 : n) {
+    x         <- c(x, rep(i, p))
+    y         <- c(y, 1 : p)
+    xi        <- X[i, ]
+    present   <- c(present, xi)
+    namespres <- if(! any(xi == 1)) 'none' else
+                  paste(labs[namx][xi == 1], collapse='<br>')
+    k         <- Freq[i]
+    tx <- paste0('<b>', namespres, '</b><br>',
+                 '<br>Count: ',                                k,
+                 '<br>Fraction of ', obsname, ': ',            fr2(k, N),
+                 '<br>Fraction of ', obsname, ' w/any cond: ', fr2(k, Nc))
+    txt <- c(txt, rep(tx, p))
+    xn  <- c(xn,  namx)
+    frq <- c(frq, rep(k, p))
+  }
+  txt <- paste0(txt, '<br>Fraction of ', obsname, ' w/', namx[y], ': ',
+                fr2(frq, m[namx[y]]))
+  hdc <- plotlyParm$heightDotchartb
+  if(! length(height)) height <- hdc(c(labs, '', ''), low=250, per=30)
+  if(! length(width)) {
+    # Find longest html line in labs
+    w        <- unlist(strsplit(labs, '<br>'))
+    longest  <- w[which.max(nchar(w))]
+    nlongest <- nchar(longest)
+    width    <- hdc(rep('X', n), per=23, low=450) + 8 * nlongest
+  }
+  P <- plotly::plot_ly(height=height, width=width)
+  
+  # Add grid lines to take control of their span
+  yy <- 1 : p
+  P <- plotly::add_segments(P,
+                            x = ~ rep(-2, p), xend = ~ rep(n, p),
+                            y = ~ 1 : p, yend = ~ 1 : p,
+                            color = I('gray80'), line=list(width=0.75),
+                            hoverinfo='none', showlegend=FALSE)
+  
+  P <- plotly::add_segments(P,
+                            x = ~ 1 : n, xend = ~ 1 : n,
+                            y = ~ rep(1, n), yend = ~ rep(p + 1.5, n),
+                            color = I('gray80'), line=list(width=0.75),
+                            hoverinfo='none', showlegend=FALSE)
+
+  # Show main result as dot chart
+  P <- plotly::add_markers(P,
+                           x    = ~ x[present == 1],
+                           y    = ~ y[present == 1],
+                           text = ~ txt[present == 1],
+                           hoverinfo='text',
+                           color=I('black'), size=I(ptsize),
+                           showlegend=FALSE)
+
+  if(showno)
+    P <- plotly::add_markers(P,
+                             x = ~ x[present == 0],
+                             y = ~ y[present == 0],
+                             hoverinfo='none',
+                             color=I('gray90'), size=I(ptsize),
+                             showlegend=FALSE)
+                             
+  
+  # Add a trace showing marginal frequencies on the left as segments
+  relfreq <- m[namx] / max(m)
+  tmf <- paste0('<b>', labs[namx],
+                '</b><br><br>Marginal count: ',               m[namx],
+                '<br>Fraction of ', obsname, ': ',            fr2(m[namx], N),
+                '<br>Fraction of ', obsname, ' w/any cond: ', fr2(m[namx], Nc))
+                
+  P <- plotly::add_segments(P,
+                            x = ~ rep(0, p), xend= ~ -2 * relfreq,
+                            # y = ~ labs[namx], yend ~ labs[namx],
+                            y = ~ 1 : p, yend ~ 1 : p,
+                            text = ~ tmf,
+                            hoverinfo='text', color=I('blue'), 
+                            name='Marginal Counts',
+                            showlegend=TRUE,
+                            line=list(width=3)
+                            )
+
+  # Add a trace showing the individual combination frequencies on top
+  relfreqc <- Freq / max(Freq)
+  nn <- 1 : n
+  xi <- X[i, ]
+  present <- c(present, xi)
+  namespres <- if(! any(xi == 1)) 'none' else
+    paste(labs[namx][xi == 1], collapse='<br>')
+  txtc <- character(n)
+  for(i in 1 : n) {
+    xi <- X[i, ]
+    txtc[i] <- if(! any(xi == 1)) 'none' else
+      paste(labs[namx][xi == 1], collapse='<br>')
+  }
+  txtc <- paste0('<b>', txtc, '</b>',
+                 '<br><br>Count: ',                            Freq,
+                 '<br>Fraction of ', obsname, ': ',            fr2(Freq, N),
+                 '<br>Fraction of ', obsname, ' w/any cond: ', fr2(Freq, Nc))
+  
+  P <- plotly::add_segments(P,
+                            x    = ~ nn,
+                            xend = ~ nn,
+                            y    = ~ rep(p + 0.5, n),
+                            yend = ~ p + 0.5 + relfreqc,
+                            text = ~ txtc,
+                            hoverinfo='text', color=I('black'),
+                            name='Combination Counts',
+                            showlegend=TRUE, line=list(width=3))
+  
+  # Add variable labels as annotations
+  P <- plotly::add_text(P,
+                        x = ~ rep(n + 0.7, p), y = 1 : p,
+                        text = ~ labs[namx],
+                        textposition="middle right",
+                        hoverinfo='none',
+                        showlegend=FALSE)
+  
+                          
+  # leave extra space for long label
+  P <- plotly::layout(P,
+                      xaxis = list(title='', tickvals=1 : n,
+                                   range=c(-2, n + 0.4 * nlongest),
+                                   showgrid=FALSE,
+                                   showticklabels=FALSE, zeroline=FALSE),
+                      yaxis = list(title='', tickvals=1 : p,
+                                   showgrid=FALSE,
+                                   showticklabels=FALSE),
+                      legend= list(x=0.5, y=0, xanchor='center', yanchor='top', orientation='h'))
+
+  P
+}

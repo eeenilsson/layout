@@ -27,11 +27,16 @@ add_colgroup(example_layout, example_layout, position = 'left')
 \seealso{
 \code{\link{prepare}} for making a layout object.
 
-Other table layout: \code{\link{add_cols}},
-  \code{\link{add_rowgroup}}, \code{\link{add_units}},
-  \code{\link{firstrow_css}}, \code{\link{layout_html}},
-  \code{\link{order_by_vector}},
-  \code{\link{order_layout}}, \code{\link{prepare}},
-  \code{\link{print_abbrev}}, \code{\link{query_abbrev}}
+Other table layout: 
+\code{\link{add_cols}()},
+\code{\link{add_rowgroup}()},
+\code{\link{add_units}()},
+\code{\link{firstrow_css}()},
+\code{\link{layout_html}()},
+\code{\link{order_by_vector}()},
+\code{\link{order_layout}()},
+\code{\link{prepare}()},
+\code{\link{print_abbrev}()},
+\code{\link{query_abbrev}()}
 }
 \concept{table layout}

@@ -23,11 +23,16 @@ None yet.
 \seealso{
 \code{\link{html.layout}} for html tables and \code{\link{print_abbrev}} for printing abbrevs to table footer.
 
-Other table layout: \code{\link{add_colgroup}},
-  \code{\link{add_cols}}, \code{\link{add_rowgroup}},
-  \code{\link{add_units}}, \code{\link{firstrow_css}},
-  \code{\link{layout_html}}, \code{\link{order_by_vector}},
-  \code{\link{order_layout}}, \code{\link{prepare}},
-  \code{\link{print_abbrev}}
+Other table layout: 
+\code{\link{add_colgroup}()},
+\code{\link{add_cols}()},
+\code{\link{add_rowgroup}()},
+\code{\link{add_units}()},
+\code{\link{firstrow_css}()},
+\code{\link{layout_html}()},
+\code{\link{order_by_vector}()},
+\code{\link{order_layout}()},
+\code{\link{prepare}()},
+\code{\link{print_abbrev}()}
 }
 \concept{table layout}

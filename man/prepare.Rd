@@ -40,11 +40,16 @@ example_layout_width <- prepare(example_layout_width,
 \seealso{
 \code{\link{layout_html}} for html tables.
 
-Other table layout: \code{\link{add_colgroup}},
-  \code{\link{add_cols}}, \code{\link{add_rowgroup}},
-  \code{\link{add_units}}, \code{\link{firstrow_css}},
-  \code{\link{layout_html}}, \code{\link{order_by_vector}},
-  \code{\link{order_layout}}, \code{\link{print_abbrev}},
-  \code{\link{query_abbrev}}
+Other table layout: 
+\code{\link{add_colgroup}()},
+\code{\link{add_cols}()},
+\code{\link{add_rowgroup}()},
+\code{\link{add_units}()},
+\code{\link{firstrow_css}()},
+\code{\link{layout_html}()},
+\code{\link{order_by_vector}()},
+\code{\link{order_layout}()},
+\code{\link{print_abbrev}()},
+\code{\link{query_abbrev}()}
 }
 \concept{table layout}
