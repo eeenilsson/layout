@@ -409,7 +409,7 @@ setMethod('layout_html', # specify function in relation to object class
                       abbreviations <- c('someabbreviation' = "somelabel")
                   }else{abbreviations <- object@abbreviations}
               }
-              if(sum(names(object@body) %in% "var")>0){
+              if(sum(names(object@body) %in% "var", na.rm = TRUE)>0){
                   print("Rename var to variable")
 ## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"    
               }
@@ -441,7 +441,7 @@ setMethod('layout_html', # specify function in relation to object class
                       lapply(object@body,
                              function(x){
                                  if(is.numeric(x)){
-                                     if(sum(!x%%1==0)>0){
+                                     if(sum(!x%%1==0, na.rm = TRUE)>0){
                                          signif(x, digits = signif_digits)
                                          }else{x}
                                  }else{
@@ -546,7 +546,7 @@ setMethod('add_colgroup', # specify function in relation to object class
                    object2,
                    ## by,
                    position){
-              if(sum(names(object2@body) %in% names(object@body)) > 1){
+              if(sum(names(object2@body) %in% names(object@body), na.rm = TRUE) > 1){
                   warning("Duplicate column names detected. Please rename.")
               }
               if(object@variable_col[1]!=object2@variable_col[1]){
