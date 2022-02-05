@@ -117,7 +117,10 @@ setMethod('prepare', # specify function in relation to object class
               }else{
                   slot(object, "body") <- object@body[!names(object@body) %in% by_col]
               }
-              
+              if(!is.null(object@labels)){ ## order table by labels
+                  if(sum(!object@body[, 1] %in% names(object@labels)) > 0) {warning("missing labels in layout table objects, may cause an error in table")}
+                  slot(object, "body") <- object@body[match(names(object@labels)[names(object@labels) %in% object@body[, 1]], object@body[, 1]), ]
+              }
               slot(object, "col_order") <- names(object@body)
               return(object)
           }
@@ -409,7 +412,7 @@ setMethod('layout_html', # specify function in relation to object class
                       abbreviations <- c('someabbreviation' = "somelabel")
                   }else{abbreviations <- object@abbreviations}
               }
-              if(sum(names(object@body) %in% "var", na.rm = TRUE)>0){
+              if(sum(names(object@body) %in% "var")>0){
                   print("Rename var to variable")
 ## Not working              names(object@body)[names(object@body) %in% "var"] <- "variable"    
               }
@@ -440,10 +443,8 @@ setMethod('layout_html', # specify function in relation to object class
                   object@body <- as.data.frame(
                       lapply(object@body,
                              function(x){
-                                 if(is.numeric(x)){
-                                     if(sum(!x%%1==0, na.rm = TRUE)>0){
-                                         signif(x, digits = signif_digits)
-                                         }else{x}
+                                 if(is.numeric(x) & sum(!x%%1==0)>0){
+                                     signif(x, digits = signif_digits)
                                  }else{
                                      x
                                  }
@@ -546,7 +547,7 @@ setMethod('add_colgroup', # specify function in relation to object class
                    object2,
                    ## by,
                    position){
-              if(sum(names(object2@body) %in% names(object@body), na.rm = TRUE) > 1){
+              if(sum(names(object2@body) %in% names(object@body)) > 1){
                   warning("Duplicate column names detected. Please rename.")
               }
               if(object@variable_col[1]!=object2@variable_col[1]){
@@ -590,4 +591,3 @@ setMethod('add_colgroup', # specify function in relation to object class
               object@body <- object@body[, object@col_order]
               return(object)
           })
-
