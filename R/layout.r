@@ -439,12 +439,12 @@ setMethod('layout_html', # specify function in relation to object class
               }
               slot(object, "abbreviations") <- abbreviations
               slot(object, "labels") <- labels
-              if(!is.null(signif_digits)){
+                           if(!is.null(signif_digits)){
                   object@body <- as.data.frame(
                       lapply(object@body,
                              function(x){
-                                 if(is.numeric(x) & sum(!x%%1==0)>0){
-                                     signif(x, digits = signif_digits)
+                                 if(is.numeric(x)){
+                                     if(sum(!x%%1==0)>0){signif(x, digits = signif_digits)}else{x}
                                  }else{
                                      x
                                  }
